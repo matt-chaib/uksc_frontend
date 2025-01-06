@@ -1,8 +1,15 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css'; // Core Grid CSS
+import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community'; 
+
+// Register all Community features
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const fetchSuppliers = async () => {
-  const response = await fetch('http://localhost:8000/suppliers-head/');
+  const response = await fetch('http://localhost:8000/all');
   
   if (!response.ok) {
     throw new Error('Network response was not ok');
@@ -13,6 +20,16 @@ const fetchSuppliers = async () => {
 
 const SupplierTable = () => {
   const { data, error, isLoading } = useQuery('suppliers', fetchSuppliers);
+
+  const columnDefs = [
+    { headerName: 'Supplier', field: 'supplier' },
+    { headerName: 'Address', field: 'address' },
+    { headerName: 'Country', field: 'country' },
+    { headerName: 'Workers', field: 'workers' },
+    { headerName: 'Sector', field: 'sector' },
+    { headerName: 'Year', field: 'year' },
+    { headerName: 'Source Business', field: 'source_business' },
+  ];
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -25,32 +42,15 @@ const SupplierTable = () => {
   return (
     <div>
       <h2>Supplier List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Supplier</th>
-            <th>Address</th>
-            <th>Country</th>
-            <th>Workers</th>
-            <th>Sector</th>
-            <th>Year</th>
-            <th>Source Business</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(supplier => (
-            <tr key={supplier.id}>
-              <td>{supplier.supplier}</td>
-              <td>{supplier.address}</td>
-              <td>{supplier.country}</td>
-              <td>{supplier.workers}</td>
-              <td>{supplier.sector}</td>
-              <td>{supplier.year}</td>
-              <td>{supplier.source_business}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
+        <AgGridReact
+          rowData={data}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={10}
+          defaultColDef={{ sortable: true, filter: true }}
+        />
+      </div>
     </div>
   );
 };
