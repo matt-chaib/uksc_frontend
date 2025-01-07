@@ -45,8 +45,8 @@ const transformedData = data && data.reduce((acc, { source_business, country, co
         <Tooltip />
         <Legend />
 
-        {uniqueCountries && uniqueCountries.map(country => (
-          <Bar key={country} dataKey={country} stackId="a" fill={`#${Math.floor(Math.random()*16777215).toString(16)}`} />
+        {uniqueCountries && uniqueCountries.map((country, index) => (
+          <Bar key={country + String(index)} dataKey={country} stackId="a" fill={`#${Math.floor(Math.random()*16777215).toString(16)}`} />
         ))}
       </BarChart>
     </ResponsiveContainer>
