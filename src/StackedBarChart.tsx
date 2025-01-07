@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { useQuery } from 'react-query';
 
 const fetchCounts = async () => {
-    const response = await fetch('http://localhost:8000/country-count/2024/');
+    const response = await fetch('http://localhost:8000/country-count-business/2024/');
     
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -13,11 +13,11 @@ const fetchCounts = async () => {
   };
 
 const StackedBarChart = () => {
-    const { data, error, isLoading } = useQuery('country-count', fetchCounts);
+    const { data, error, isLoading } = useQuery('country-count-business', fetchCounts);
 
 
   // List of countries (keys of the data object excluding 'source_business')
-  const uniqueCountries = ["China", "United Kingdom", "Spain"];
+  const uniqueCountries = ["China", "United Kingdom", "Spain", "France", "Turkey"];
 //   const uniqueCountries = data && [...new Set(data.map(item => item.country))];
 
 const transformedData = data && data.reduce((acc, { source_business, country, country_count }) => {
