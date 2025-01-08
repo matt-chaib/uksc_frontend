@@ -18,7 +18,7 @@ const ChoroplethMap = () => {
   const [geoJsonData, setGeoJsonData] = useState(null);
   const { data: countryData, error, isLoading } = useQuery('country-count', fetchCounts);
   const [countryCounts, setCountryCounts] = useState(null)
-  // const [uniqueCounts, setUniqueCounts] = useState(null)
+  const [secondHighestCount, setSecondHighestCount] = useState(null)
 
   console.log(countryData)
   // Example country data
@@ -36,14 +36,9 @@ const ChoroplethMap = () => {
         tempDict[row["country"]] = row["count"]
       })
       setCountryCounts(tempDict)
+      setSecondHighestCount([...new Set(Object.values(tempDict))].sort((a, b) => b - a)[1])
     }
   }, [countryData])
-
-  console.log(countryCounts)
-  const uniqueCounts = countryCounts && [...new Set(Object.values(countryCounts))];    // Remove duplicates using Set
-  uniqueCounts && uniqueCounts.sort((a, b) => b - a);           // Sort in descending order
-  
-  const secondHighestCount = uniqueCounts && uniqueCounts[1];
 
   // Color scale function
   const getColor = (count) =>

@@ -1,6 +1,7 @@
 
 import './App.css'
 import ChoroplethMap from './ChloroplethMap'
+import CountryBySupermarket from './CountryBySupermarket'
 import CountryCountsChart from './CountryCountsChart'
 import StackedBarChart from './StackedBarChart'
 import SupplierTable from './supplier_table'
@@ -12,7 +13,7 @@ function App() {
       <div>
         <SupplierTable />
         <StackedBarChart />
-        {/* <CountryCountsChart /> */}
+        <CountryBySupermarket />
         <ChoroplethMap />
       </div>
     </>

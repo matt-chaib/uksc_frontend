@@ -27,7 +27,7 @@ const CountryCountsChart = () => {
       <XAxis dataKey="country" />
       <YAxis />
       <Tooltip />
-      <Bar dataKey="count" fill="#8884d8" />
+      <Bar dataKey="count" key={sorted_data?.id} fill="#8884d8" />
     </BarChart>
   </ResponsiveContainer>
 );
