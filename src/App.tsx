@@ -1,22 +1,22 @@
 
 import './App.css'
-import ChoroplethMap from './ChloroplethMap'
-import CountryBySupermarket from './CountryBySupermarket'
-import CountryCountsChart from './CountryCountsChart'
-import StackedBarChart from './StackedBarChart'
-import SupplierTable from './supplier_table'
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Homepage } from './Homepage';
+import Navbar from './Navbar';
+import { AboutPage } from './AboutPage';
 function App() {
 
   return (
     <>
-      <div>
-        <SupplierTable />
-        <StackedBarChart />
-        <CountryBySupermarket />
-        <ChoroplethMap />
-      </div>
-    </>
+       <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/about" element={<AboutPage />} />
+        </Routes>
+      </Router>
+      </>
   )
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useQuery } from 'react-query';
-
+import { supermarketColours } from './colours';
 const fetchCounts = async () => {
     const response = await fetch('http://localhost:8000/business-count/2024/');
     
@@ -33,7 +33,7 @@ const CountryBySupermarket = () => {
         <Legend />
 
         {businesses.map((business, index) => (
-          <Bar key={business + String(index)} dataKey={business} stackId="a" fill={`#${Math.floor(Math.random()*16777215).toString(16)}`} />
+          <Bar key={business + String(index)} dataKey={business} stackId="a" fill={supermarketColours[business]} />
         ))}
       </BarChart>
     </ResponsiveContainer>
