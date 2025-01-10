@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useQuery } from 'react-query';
 import { supermarketColours } from './colours';
@@ -15,19 +15,29 @@ const fetchCounts = async () => {
 
 const CountryBySupermarket = () => {
     const { data, error, isLoading } = useQuery(['business-count', '2024'], fetchCounts);
-
+    const [showCommon, setShowCommon] = useState(false);
+    const [sortedData, setSortedData] = useState(null);
     console.log(data)
 
-    const sorted_data = data ? [...data].sort((a, b) => (b.Asda + b.Sainsburys + b.Tesco) - (a.Asda + a.Sainsburys + a.Tesco)) : [];
+    useEffect(() => {
+      let tempDat = data ? [...data].sort((a, b) => (b.Asda + b.Sainsburys + b.Tesco) - (a.Asda + a.Sainsburys + a.Tesco)) : []
+      if (showCommon && data) {
+        tempDat = tempDat.slice(0, 15)
+      }
+      setSortedData(tempDat)
+    }, [data, showCommon])
 
 
   const businesses = ["Asda", "Tesco", "Sainsburys"]
 
   return (
     <div className='chart-wrapper'>
-    <h2>Suppliers by country, coloured by supermarket.</h2>
+      <div>
+      <h2>Suppliers by country, coloured by supermarket.</h2>
+      <button onClick={() => setShowCommon(!showCommon)}>{showCommon ? "Show All" : "Show Top 15"}</button>
+      </div>
     <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={sorted_data}>
+      <BarChart data={sortedData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="country" />
         <YAxis />

@@ -95,3 +95,22 @@
     flex-direction: column;
     gap: 0.4rem;
   }
+  
+  @media screen and (max-width: 900px) {
+    .chart-pair-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1;
+      width: 95%;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+  
+    .map-container {
+      padding: 2rem 2rem;
+      display: flex;
+      flex-direction: column-reverse;
+      width: 95%;
+      gap: 1rem;
+    }
+  }

@@ -1,25 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import chroma from 'chroma-js';
 import { useQuery } from 'react-query';
 import { MapControlsBar } from './MapControlsBar';
 
-const fetchCounts = async () => {
-  const response = await fetch('http://localhost:8000/country-count/2024/');
-  
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+const fetchCountryCountByYear = async ({ queryKey }: { queryKey: [string, number, string?] }) => {
+  const [, year, sourceBusiness] = queryKey;  // Destructure queryKey
+  let url = `http://localhost:8000/country-count/${year}/`;
+
+  if (sourceBusiness && sourceBusiness != "All") {
+    url += `?source_business=${encodeURIComponent(sourceBusiness)}`;
   }
-  
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Error fetching data: ${response.statusText}`);
+  }
   return response.json();
 };
 
+
 const ChoroplethMap = () => {
+  const [year, setYear] = useState(2024);  // Example year
+  const [sourceBusiness, setSourceBusiness] = useState<string | undefined>(undefined);
+
   const [geoJsonData, setGeoJsonData] = useState(null);
-  const { data: countryData, error, isLoading } = useQuery('country-count', fetchCounts);
+  const { data: countryData, error, isLoading } = useQuery({queryKey: ['countryCountByYear', year, sourceBusiness], queryFn: fetchCountryCountByYear, enabled: !!year});
   const [countryCounts, setCountryCounts] = useState(null)
   const [secondHighestCount, setSecondHighestCount] = useState(null)
+  const geoJsonLayerRef = useRef(null); // Reference to the GeoJSON layer
 
   console.log(countryData)
   // Example country data
@@ -36,6 +46,7 @@ const ChoroplethMap = () => {
       countryData.forEach(row => {
         tempDict[row["country"]] = row["count"]
       })
+      console.log(countryData)
       setCountryCounts(tempDict)
       setSecondHighestCount([...new Set(Object.values(tempDict))].sort((a, b) => b - a)[1])
     }
@@ -82,10 +93,24 @@ const ChoroplethMap = () => {
 
   const onEachFeature = (feature, layer) => {
     const country = feature.properties.name;
-    console.log(country)
-    const count = countryCounts[feature.properties.name] || 0;
-    layer.bindPopup(`${country}: ${count}`);
+    const count = countryCounts[country] || 0;
+    layer.bindPopup(`${country}: ${count} suppliers`);
   };
+
+  const updatePopups = () => {
+    if (geoJsonLayerRef.current) {
+      geoJsonLayerRef.current.eachLayer(layer => {
+        const country = layer.feature.properties.name;
+        const count = countryCounts[country] || 0;
+        layer.bindPopup(`${country}: ${count}`);
+      });
+    }
+  };
+
+  useEffect(() => {
+    updatePopups();
+  }, [countryCounts]);
+
 
   return (
     <div className="map-container">
@@ -93,12 +118,13 @@ const ChoroplethMap = () => {
         <MapContainer center={[20, 0]} zoom={2} style={{ height: '600px', width: '100%' }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {geoJsonData && (
-            <GeoJSON data={geoJsonData} style={styleFeature} onEachFeature={onEachFeature} />
+            <GeoJSON data={geoJsonData} style={styleFeature}   onEachFeature={onEachFeature}
+            ref={geoJsonLayerRef} />
           )}
         </MapContainer>
       </div>
       <div className="controls">
-        <MapControlsBar items={['Tesco', 'Asda', 'Sainsburys']} onItemChange={() => {}} />
+        <MapControlsBar items={['Tesco', 'Asda', 'Sainsburys']} onItemChange={setSourceBusiness} />
       </div>
     </div>
   );

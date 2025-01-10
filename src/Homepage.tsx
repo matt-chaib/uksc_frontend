@@ -8,12 +8,12 @@ export const Homepage = () => {
 
     return (
         <div className="homepage-container">
-            <ChoroplethMap />
-            <SupplierTable />
-            <div className='chart-pair-wrapper'>
+             <div className='chart-pair-wrapper'>
             <StackedBarChart />
             <CountryBySupermarket />
             </div>
+            <ChoroplethMap />
+            <SupplierTable />
         </div>
     )
 }
