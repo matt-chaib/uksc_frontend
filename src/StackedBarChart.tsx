@@ -39,19 +39,22 @@ const StackedBarChart = () => {
 //   const uniqueCountries = data && [...new Set(data.map(item => item.country))];
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="source_business" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
+    <div className='chart-wrapper'>
+      <h2>Suppliers by supermarket, coloured by country.</h2>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="source_business" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
 
-        {uniqueCountries && uniqueCountries.map((country, index) => (
-          <Bar key={country + String(index)} dataKey={country} stackId="a" fill={colourPalette[index]} />
-        ))}
-      </BarChart>
-    </ResponsiveContainer>
+          {uniqueCountries && uniqueCountries.map((country, index) => (
+            <Bar key={country + String(index)} dataKey={country} stackId="a" fill={colourPalette[index]} />
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

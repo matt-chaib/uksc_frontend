@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import chroma from 'chroma-js';
 import { useQuery } from 'react-query';
+import { MapControlsBar } from './MapControlsBar';
 
 const fetchCounts = async () => {
   const response = await fetch('http://localhost:8000/country-count/2024/');
@@ -87,12 +88,19 @@ const ChoroplethMap = () => {
   };
 
   return (
-    <MapContainer center={[20, 0]} zoom={2} style={{ height: '600px', width: '1000px' }}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {geoJsonData && (
-        <GeoJSON data={geoJsonData} style={styleFeature} onEachFeature={onEachFeature}/>
-      )}
-    </MapContainer>
+    <div className="map-container">
+      <div className="map">
+        <MapContainer center={[20, 0]} zoom={2} style={{ height: '600px', width: '100%' }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {geoJsonData && (
+            <GeoJSON data={geoJsonData} style={styleFeature} onEachFeature={onEachFeature} />
+          )}
+        </MapContainer>
+      </div>
+      <div className="controls">
+        <MapControlsBar items={['Tesco', 'Asda', 'Sainsburys']} onItemChange={() => {}} />
+      </div>
+    </div>
   );
 };
 

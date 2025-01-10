@@ -24,6 +24,8 @@ const CountryBySupermarket = () => {
   const businesses = ["Asda", "Tesco", "Sainsburys"]
 
   return (
+    <div className='chart-wrapper'>
+    <h2>Suppliers by country, coloured by supermarket.</h2>
     <ResponsiveContainer width="100%" height={400}>
       <BarChart data={sorted_data}>
         <CartesianGrid strokeDasharray="3 3" />
@@ -37,6 +39,7 @@ const CountryBySupermarket = () => {
         ))}
       </BarChart>
     </ResponsiveContainer>
+    </div>
   );
 };
 

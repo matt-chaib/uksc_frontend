@@ -40,7 +40,7 @@ const SupplierTable = () => {
   }
 
   return (
-    <div>
+    <div className='supplier-data-table'>
       <h2>Supplier List</h2>
       <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
         <AgGridReact

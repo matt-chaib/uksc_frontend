@@ -7,11 +7,13 @@ import SupplierTable from './supplier_table'
 export const Homepage = () => {
 
     return (
-        <>
+        <div className="homepage-container">
+            <ChoroplethMap />
             <SupplierTable />
+            <div className='chart-pair-wrapper'>
             <StackedBarChart />
             <CountryBySupermarket />
-            <ChoroplethMap />
-        </>
+            </div>
+        </div>
     )
 }
