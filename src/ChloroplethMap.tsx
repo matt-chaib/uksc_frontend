@@ -85,7 +85,7 @@ const ChoroplethMap = () => {
       
 
   const styleFeature = (feature) => ({
-    fillColor: getColor(countryCounts[feature.properties.name] || 0),
+    fillColor: feature.properties.name === "United Kingdom" ? "#450c18" : getColor(countryCounts[feature.properties.name] || 0),
     weight: 1,
     color: '#333',
     fillOpacity: 0.8,
@@ -113,20 +113,23 @@ const ChoroplethMap = () => {
 
 
   return (
-    <div className="map-container">
-      <div className="map">
-        <MapContainer center={[20, 0]} zoom={2} style={{ height: '600px', width: '100%' }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {geoJsonData && (
-            <GeoJSON data={geoJsonData} style={styleFeature}   onEachFeature={onEachFeature}
-            ref={geoJsonLayerRef} />
-          )}
-        </MapContainer>
-      </div>
-      <div className="controls">
-        <MapControlsBar items={['Tesco', 'Asda', 'Sainsburys']} onItemChange={setSourceBusiness} />
-      </div>
-    </div>
+    <div className='chart-wrapper'>
+      <h2>Map of countries coloured by supplier count.</h2>
+      <div className="map-container">
+          <div className="map">
+            <MapContainer center={[20, 0]} zoom={2} style={{ height: '600px', width: '100%' }}>
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              {geoJsonData && (
+                <GeoJSON data={geoJsonData} style={styleFeature}   onEachFeature={onEachFeature}
+                ref={geoJsonLayerRef} />
+              )}
+            </MapContainer>
+          </div>
+          <div className="controls">
+            <MapControlsBar items={['Tesco', 'Asda', 'Sainsburys']} onItemChange={setSourceBusiness} />
+          </div>
+        </div>
+        </div>
   );
 };
 

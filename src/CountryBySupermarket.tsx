@@ -2,7 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useQuery } from 'react-query';
 import { supermarketColours } from './colours';
-const fetchCounts = async () => {
+
+interface SupermarketData {
+  country: string;
+  Asda: number;
+  Tesco: number;
+  Sainsburys: number;
+  [key: string]: string | number; // To handle dynamic keys for supermarkets
+}
+
+const fetchCounts = async (): Promise<SupermarketData[]> => {
     const response = await fetch('http://localhost:8000/business-count/2024/');
     
     if (!response.ok) {
@@ -14,9 +23,9 @@ const fetchCounts = async () => {
 
 
 const CountryBySupermarket = () => {
-    const { data, error, isLoading } = useQuery(['business-count', '2024'], fetchCounts);
-    const [showCommon, setShowCommon] = useState(false);
-    const [sortedData, setSortedData] = useState(null);
+    const { data, error, isLoading } = useQuery<SupermarketData[], Error>(['business-count', '2024'], fetchCounts);
+    const [showCommon, setShowCommon] = useState<boolean>(false);
+    const [sortedData, setSortedData] = useState<SupermarketData[] | undefined>(undefined);
     console.log(data)
 
     useEffect(() => {
@@ -28,14 +37,14 @@ const CountryBySupermarket = () => {
     }, [data, showCommon])
 
 
-  const businesses = ["Asda", "Tesco", "Sainsburys"]
+    const businesses: (keyof typeof supermarketColours)[] = ["Asda", "Tesco", "Sainsburys"];
 
   return (
     <div className='chart-wrapper'>
       <div>
       <h2>Suppliers by country, coloured by supermarket.</h2>
-      <button onClick={() => setShowCommon(!showCommon)}>{showCommon ? "Show All" : "Show Top 15"}</button>
       </div>
+      <div style={{alignSelf: 'flex-start', paddingLeft: '2rem'}}><button onClick={() => setShowCommon(!showCommon)}>{showCommon ? "Show All" : "Show Top 15"}</button></div>
     <ResponsiveContainer width="100%" height={400}>
       <BarChart data={sortedData}>
         <CartesianGrid strokeDasharray="3 3" />
