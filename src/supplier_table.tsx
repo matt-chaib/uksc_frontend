@@ -25,8 +25,8 @@ const SupplierTable = () => {
     { headerName: 'Supplier', field: 'supplier' },
     { headerName: 'Address', field: 'address' },
     { headerName: 'Country', field: 'country' },
-    { headerName: 'Workers', field: 'workers' },
-    { headerName: 'Sector', field: 'sector' },
+    // { headerName: 'Workers', field: 'workers' },
+    // { headerName: 'Sector', field: 'sector' },
     { headerName: 'Year', field: 'year' },
     { headerName: 'Source Business', field: 'source_business' },
   ];
