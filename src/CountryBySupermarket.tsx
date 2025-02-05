@@ -38,27 +38,43 @@ const CountryBySupermarket = () => {
 
 
     const businesses: (keyof typeof supermarketColours)[] = ["Asda", "Tesco", "Sainsburys"];
+    const showAllLabels: boolean = sortedData ? sortedData.length <= 15 : false;
 
   return (
-    <div className='chart-wrapper'>
-      <div>
-      <h2>Suppliers by country, coloured by supermarket.</h2>
-      </div>
-      <div style={{alignSelf: 'flex-start', paddingLeft: '2rem'}}><button onClick={() => setShowCommon(!showCommon)}>{showCommon ? "Show All" : "Show Top 15"}</button></div>
-    <ResponsiveContainer width="100%" height={400}>
-      <BarChart data={sortedData}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="country" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-
-        {businesses.map((business, index) => (
-          <Bar key={business + String(index)} dataKey={business} stackId="a" fill={supermarketColours[business]} />
-        ))}
-      </BarChart>
-    </ResponsiveContainer>
-    </div>
+<div className='chart-wrapper'>
+  <h2>Suppliers by country, coloured by supermarket.</h2>
+  <ResponsiveContainer width="100%" height={"80%"}>
+    <BarChart data={sortedData} margin={{ top: 0, right: 30, left: 40, bottom: 70 }} >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis 
+        dataKey="country" 
+        angle={-28}  // Rotates the labels 45 degrees
+        textAnchor="end"  // Adjusts the anchor point for better alignment
+        interval={showAllLabels ? 0 : 'preserveStartEnd'} // Shows all labels if fewer than 15 bars, else optimizes spacing
+      />
+      <YAxis />
+      <Tooltip />
+      <Legend layout="horizontal" 
+  verticalAlign="bottom" 
+  align="center" 
+  wrapperStyle={{ paddingTop: 50 }}/>
+      
+      {businesses.map((business, index) => (
+        <Bar 
+          key={business + String(index)} 
+          dataKey={business} 
+          stackId="a" 
+          fill={supermarketColours[business]} 
+        />
+      ))}
+    </BarChart>
+  </ResponsiveContainer>
+  <div style={{alignSelf: 'flex-start', paddingLeft: '3rem'}}>
+    <button onClick={() => setShowCommon(!showCommon)}>
+      {showCommon ? "Show all countries" : "Show Top 15"}
+    </button>
+  </div>
+</div>
   );
 };
 
