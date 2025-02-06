@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, GeoJSON, GeoJSONProps } from 'react-leaflet';
-import { FeatureCollection, Feature } from 'geojson';
+import { useEffect, useState, useRef } from 'react';
+import { MapContainer, TileLayer, GeoJSON} from 'react-leaflet';
+import { FeatureCollection, Feature, Geometry, GeoJsonProperties} from 'geojson';
 import 'leaflet/dist/leaflet.css';
 import chroma from 'chroma-js';
 import { QueryFunctionContext, useQuery } from 'react-query';
 import { MapControlsBar } from './MapControlsBar';
 
+import { StyleFunction } from 'leaflet';
 interface CountryDataItem {
   country: string;
   count: number;
@@ -31,7 +32,7 @@ const fetchCountryCountByYear = async ({ queryKey }: QueryFunctionContext<[strin
 };
 
 const ChoroplethMap = () => {
-  const [year, setYear] = useState<number>(2024);  // Example year
+  const [year, _setYear] = useState<number>(2024);  // Example year
   const [sourceBusiness, setSourceBusiness] = useState<string | undefined>(undefined);
 
   const [geoJsonData, setGeoJsonData] = useState<FeatureCollection | null>(null);
@@ -44,6 +45,14 @@ const ChoroplethMap = () => {
   const [countryCounts, setCountryCounts] = useState<Record<string, number> | null>(null);
   const [secondHighestCount, setSecondHighestCount] = useState<number | null>(null);
   const geoJsonLayerRef = useRef<L.GeoJSON | null>(null); // Reference to the GeoJSON layer
+
+  if (error) {
+
+  }
+
+  if (isLoading) {
+    
+  }
 
   useEffect(() => {
     if (countryData) {
@@ -78,12 +87,16 @@ const ChoroplethMap = () => {
       });
   }, []);
 
-  const styleFeature = (feature: Feature) => ({
-    fillColor: feature.properties?.name === "United Kingdom" ? "#450c18" : getColor(countryCounts?.[feature.properties?.name || ''] || 0),
-    weight: 1,
-    color: '#333',
-    fillOpacity: 0.8,
-  });
+  const styleFeature: any = (feature: Feature<Geometry, GeoJsonProperties>) => {
+    return {
+      fillColor: feature.properties?.name === "United Kingdom"
+        ? "#450c18"
+        : getColor(countryCounts?.[feature.properties?.name || ''] || 0),
+      weight: 1,
+      color: '#333',
+      fillOpacity: 0.8,
+    };
+  };
 
   const onEachFeature = (feature: Feature, layer: L.Layer) => {
     const country = feature.properties?.name || 'Unknown';
@@ -93,7 +106,7 @@ const ChoroplethMap = () => {
 
   const updatePopups = () => {
     if (geoJsonLayerRef.current) {
-      geoJsonLayerRef.current.eachLayer(layer => {
+      geoJsonLayerRef.current.eachLayer((layer: any) => {
         const country = layer.feature.properties.name;
         const count = countryCounts?.[country] || 0;
         layer.bindPopup(`${country}: ${count}`);
