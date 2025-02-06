@@ -12,7 +12,7 @@ interface SupermarketData {
 }
 
 const fetchCounts = async (): Promise<SupermarketData[]> => {
-    const response = await fetch(`${import.meta.env.BASE_URL}/business-count/2024/`);
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/business-count/2024/`);
     
     if (!response.ok) {
       throw new Error('Network response was not ok');
