@@ -5,8 +5,6 @@ import 'leaflet/dist/leaflet.css';
 import chroma from 'chroma-js';
 import { QueryFunctionContext, useQuery } from 'react-query';
 import { MapControlsBar } from './MapControlsBar';
-
-import { StyleFunction } from 'leaflet';
 interface CountryDataItem {
   country: string;
   count: number;
