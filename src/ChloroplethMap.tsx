@@ -14,7 +14,7 @@ type CountryData = CountryDataItem[];
 
 const fetchCountryCountByYear = async ({ queryKey }: QueryFunctionContext<[string, number, string?]>): Promise<CountryData> => {
   const [, year, sourceBusiness] = queryKey;  // Destructure queryKey
-  let url = `${import.meta.env.BASE_URL}/country-count/${year}/`;
+  let url = `${import.meta.env.VITE_BASE_URL}/country-count/${year}/`;
 
   if (sourceBusiness && sourceBusiness !== "All") {
     url += `?source_business=${encodeURIComponent(sourceBusiness)}`;
@@ -70,7 +70,7 @@ const ChoroplethMap = () => {
       : '#ccc';
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}/api/countries/`)
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/countries/`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
