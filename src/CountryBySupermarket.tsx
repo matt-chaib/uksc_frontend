@@ -23,7 +23,7 @@ const fetchCounts = async (): Promise<SupermarketData[]> => {
 
 
 const CountryBySupermarket = () => {
-    const { data, error, isLoading } = useQuery<SupermarketData[], Error>(['business-count', '2024'], fetchCounts);
+    const { data } = useQuery<SupermarketData[], Error>(['business-count', '2024'], fetchCounts);
     const [showCommon, setShowCommon] = useState<boolean>(false);
     const [sortedData, setSortedData] = useState<SupermarketData[] | undefined>(undefined);
     console.log(data)
