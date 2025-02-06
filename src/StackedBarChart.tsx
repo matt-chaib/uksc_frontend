@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import {colourPalette} from './colours'
 
 const fetchCounts = async () => {
-    const response = await fetch('http://localhost:8000/country-count-business/2024/');
+    const response = await fetch(`${import.meta.env.BASE_URL}/country-count-business/2024/`);
     
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -14,7 +14,7 @@ const fetchCounts = async () => {
   };
 
   const fetchCountryCounts = async () => {
-    const response = await fetch('http://localhost:8000/country-count/2024/');
+    const response = await fetch(`${import.meta.env.BASE_URL}/country-count/2024/`);
     
     if (!response.ok) {
       throw new Error('Network response was not ok');

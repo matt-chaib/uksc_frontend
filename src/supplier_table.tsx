@@ -9,7 +9,7 @@ import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const fetchSuppliers = async () => {
-  const response = await fetch('http://localhost:8000/all');
+  const response = await fetch(`${import.meta.env.BASE_URL}/all`);
   
   if (!response.ok) {
     throw new Error('Network response was not ok');
