@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from 'react-query';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css'; // Core Grid CSS
@@ -36,7 +35,7 @@ const SupplierTable = () => {
   }
 
   if (error) {
-    return <div>Error fetching data: {error.message}</div>;
+    console.error(error);
   }
 
   return (

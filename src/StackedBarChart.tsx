@@ -1,4 +1,3 @@
-import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useQuery } from 'react-query';
 import {colourPalette} from './colours'
@@ -28,7 +27,13 @@ const StackedBarChart = () => {
     const { data, error, isLoading } = useQuery('country-count-business', fetchCounts);
     const { data: ccData, error: ccError, isLoading: ccLoading } = useQuery('country-count', fetchCountryCounts);
 
+    if (error || ccError) {
 
+    }
+
+    if (isLoading || ccLoading) {
+      
+    }
     console.log(data)
 
     const sorted_data = ccData ? [...ccData].sort((a, b) => b.count - a.count) : [];
