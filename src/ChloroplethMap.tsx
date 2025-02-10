@@ -121,7 +121,7 @@ const ChoroplethMap = () => {
       <h2>Map of countries coloured by supplier count.</h2>
       <div className="map-container">
         <div className="map">
-          <MapContainer center={[20, 0]} zoom={2} style={{ height: '100%', width: '100%' }}>
+          <MapContainer center={[20, 0]} zoom={2} style={{ height: '400px', width: '100%' }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             {geoJsonData && (
               <GeoJSON data={geoJsonData} style={styleFeature} onEachFeature={onEachFeature} ref={geoJsonLayerRef} />
