@@ -44,20 +44,21 @@ const CountryBySupermarket = () => {
 <div className='chart-wrapper'>
   <h2>Suppliers by country, coloured by supermarket.</h2>
   <ResponsiveContainer width="100%" height={"80%"}>
-    <BarChart data={sortedData} margin={{ top: 0, right: 30, left: 40, bottom: 70 }} >
+    <BarChart data={sortedData} margin={{ top: 0, right: 30, left: 40, bottom: 20 }} >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis 
         dataKey="country" 
-        angle={-28}  // Rotates the labels 45 degrees
+        angle={-75}  // Rotates the labels 45 degrees
         textAnchor="end"  // Adjusts the anchor point for better alignment
         interval={showAllLabels ? 0 : 'preserveStartEnd'} // Shows all labels if fewer than 15 bars, else optimizes spacing
+        fontSize={"0.8rem"}
       />
       <YAxis />
       <Tooltip />
       <Legend layout="horizontal" 
   verticalAlign="bottom" 
   align="center" 
-  wrapperStyle={{ paddingTop: 50 }}/>
+  wrapperStyle={{ paddingTop: 100 }}/>
       
       {businesses.map((business, index) => (
         <Bar 
