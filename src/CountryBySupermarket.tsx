@@ -8,7 +8,7 @@ interface SupermarketData {
   Asda: number;
   Tesco: number;
   Sainsburys: number;
-  [key: string]: string | number; // To handle dynamic keys for supermarkets
+  [key: string]: string | number; 
 }
 
 const fetchCounts = async (): Promise<SupermarketData[]> => {
